@@ -1,6 +1,5 @@
 import os
 import configparser
-from tqdm import tqdm
 import subprocess
 
 def install_dependencies():
@@ -8,18 +7,21 @@ def install_dependencies():
     with open('requirements.txt', 'r') as requirements_file:
         dependencies = requirements_file.read().splitlines()
 
-    for dependency in tqdm(dependencies, unit="package", desc="Installing dependencies"):
+    print('Installing dependencies...', end='', flush=True)
+    for dependency in dependencies:
         subprocess.check_call(["pip", "install", dependency], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    print('DONE')
 
 def create_folders(config):
     # Create folders based on configuration
     directories_section = config['directories']
     folders_to_create = [value for value in directories_section.values()]
 
-    for folder in tqdm(folders_to_create, unit="folder", desc="Creating folders"):
+    print('Managing directories...', end='', flush=True)
+    for folder in folders_to_create:
         if not os.path.exists(folder):
             os.makedirs(folder)
-            print(f"Created folder: {folder}")
+    print('DONE')
 
 def main():
     # Read configuration
@@ -32,7 +34,7 @@ def main():
     # Create folders based on configuration
     create_folders(config)
 
-    print("...DONE")
+    print('ALL DONE')
 
 if __name__ == "__main__":
     main()

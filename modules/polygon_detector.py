@@ -1,19 +1,10 @@
 import cv2
-import configparser
-import os
-import matplotlib.pyplot as plt
-import imageio
+from configparser import ConfigParser
 
+class Polygon_Detector:
 
-class PolygonDetector:
-
-    def __init__(self) -> None:
+    def __init__(self, config: ConfigParser) -> None:
         
-        # GET CONFIG FILE
-        config = configparser.ConfigParser()
-        config.read(os.path.join(os.path.dirname(__file__), '../config/config.ini'))
-
-
         self.polygon_vertices = [int(value) for value in config['polygon_vertices'].values()]
         self.polygon_shapes = [value for value in config['polygon_shapes'].values()]
 
@@ -48,7 +39,7 @@ class PolygonDetector:
         contours = self.find_contours(image)
 
         results = []
-        last_first_vertex_in_contour = contours[0][0,0]
+        if contours: last_first_vertex_in_contour = contours[0][0,0]
         j = 0
         for cnt in contours:
 
@@ -63,7 +54,7 @@ class PolygonDetector:
             last_first_vertex_in_contour = new_vertex
 
             i = 0
-            while i <= len(self.polygon_vertices) and not found:
+            while i < len(self.polygon_vertices) and not found:
                 if len(approx) <= self.polygon_vertices[i]:
                     results.append(self.polygon_shapes[i])
                     found = True
@@ -78,7 +69,7 @@ class PolygonDetector:
         contours = self.find_contours(image)
 
         result_image = image.copy()
-        last_first_vertex_in_contour = contours[0][0,0]
+        if contours: last_first_vertex_in_contour = contours[0][0,0]
         j = 0
         for cnt in contours:
 
@@ -92,6 +83,7 @@ class PolygonDetector:
             last_first_vertex_in_contour = new_vertex
 
             i = 0
+            print(len(approx))
             while i <= len(self.polygon_vertices) and not found:
                 if len(approx) <= self.polygon_vertices[i]:
                     cv2.drawContours(result_image, [approx], -1, (0,255,255), 3)
@@ -102,15 +94,4 @@ class PolygonDetector:
             j += 1
 
         return result_image
-    
-
-if __name__ == '__main__':
-
-
-    detector = PolygonDetector()
-    image = imageio.imread('../data/captured_images/captured_image1.jpg')
-    result_image = detector.draw_polygons(image)
-    cv2.imshow('Image', result_image)
-    cv2.waitKey(0)  # Wait until a key is pressed
-    cv2.destroyAllWindows()  # Close the window
 
