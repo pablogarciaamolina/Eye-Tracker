@@ -1,9 +1,7 @@
-# Proyecto_Vision
-
-<h1>Eye Tracker</h1>
+# Proyecto_Vision / Eye tracker 
 
 Pablo García Molina y Andrés Martinez
 
-<em> Requirements </em>
+<h2> <em> Requirements </em> </h2>
 
 <em> Guide </em>
