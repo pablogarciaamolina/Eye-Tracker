@@ -26,8 +26,7 @@ it does the same for the eyes and search for the important points on the image t
 <h3>Application.py</h3>
 <p>Running the application.py file will start the application, firstly the calibration system will be activated and if enough images are provided the camera will be calibrated, if not images of the calibration pattern can be taken in real time.</p>
 <p>Then the security system will start, the user will have a limited number of attempts to provide the correct secuence of polygons. If te user runs out odf attempts acces will be denied and the application will finish.</p>
-<p>Lastly if the secuence is procided sucessfully, access will be granted and the tracker application will start.</p>
-<p>The eye tracker ill run until the user exits the session.</p>
+<p>Lastly if the secuence is procided sucessfully, access will be granted and the tracker application will start. The eye tracker ill run until the user exits the session.</p>
 
 <h2>Configuration</h2>
 <p></p>
