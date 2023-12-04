@@ -10,7 +10,7 @@ from modules.tracker import Tracker
 
 interface = Console_Interface()
 
-def calibrate_camera(camera: CameraInput_RaspBerryPi, calibrator: Calibration, min_calibration_images: int, take_picture_key: str):
+def calibrate_camera(camera, calibrator: Calibration, min_calibration_images: int, take_picture_key: str):
     '''
     Runs calibration for the camera
     '''
@@ -49,8 +49,9 @@ def calibrate_camera(camera: CameraInput_RaspBerryPi, calibrator: Calibration, m
             code = 0
 
     if code == 1: interface.finish_load()
+    camera.destroy_windows()
 
-def security(camera: CameraInput_RaspBerryPi, polygon_detector: Polygon_Detector, pattern: list[str], n_trys: int, picture_key: str):
+def security(camera, polygon_detector: Polygon_Detector, pattern: list[str], n_trys: int, picture_key: str):
     '''
     Runs security system. Based on polygon recognition
 
@@ -93,7 +94,7 @@ def security(camera: CameraInput_RaspBerryPi, polygon_detector: Polygon_Detector
             elif len(detected) < 1:
                 interface.message('· No shapes detected, picture is not clear, try again')
     
-    camera.stop()
+    camera.destroy_windows()
 
     if trys_left <= 0:
 
@@ -105,26 +106,28 @@ def security(camera: CameraInput_RaspBerryPi, polygon_detector: Polygon_Detector
         interface.colored_message('ACCESS GRANTED', color='green')
         return 1
 
-def run_tracker(camera: CameraInput_RaspBerryPi, tracker: Tracker, exit_key: str):
+def run_tracker(camera, tracker: Tracker, start_key: str, exit_key: str):
 
     interface.title('Tracking system:')
-    interface.message(f'Press {exit_key} to end tracking', underlined=True)
+    start = interface.text_input(f'Enter {start_key} to start tracking: ', expected_answer=start_key, next_line=False)
+    if start:
+        interface.message(f'Press {exit_key} to end tracking', underlined=True)
 
-    run = True
-    while run:
+        run = True
+        while run:
 
-        frame = camera.feed()
+            frame = camera.feed()
 
-        frame = tracker.return_detected(frame)
+            frame = tracker.return_detected(frame)
 
-        cv2.imshow('Eye Tracking', frame)
+            cv2.imshow('Eye Tracking', frame)
 
-        key = cv2.waitKey(1)
+            key = cv2.waitKey(1)
 
-        if key & 0xFF == ord(exit_key):
-            run = False
+            if key & 0xFF == ord(exit_key):
+                run = False
 
-    camera.stop()
+        camera.destroy_windows()
 
 def main():
 
@@ -145,12 +148,15 @@ def main():
     # EYE TRACKER
     tracker = Tracker(configuration)
     stop_tracking_key = configuration['tracker']['tracker_stop_key']
-
+    start_tracking_key = configuration['tracker']['tracker_start_key']
+    
 
     interface.special_intro()
     calibrate_camera(camera, calibration, min_calibration_images, take_picture_calibration_key)
     security(camera, polygon_detector, security_pattern, security_max_trys, security_key)
-    run_tracker(camera, tracker, stop_tracking_key)
+    run_tracker(camera, tracker, start_tracking_key, stop_tracking_key)
+
+    camera.stop()
 
 
 if __name__ == '__main__':

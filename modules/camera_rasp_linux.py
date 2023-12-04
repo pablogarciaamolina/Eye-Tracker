@@ -29,3 +29,8 @@ class CameraInput_RaspBerryPi:
 
         # Release the camera and close the window
         self.camera.release()
+
+    def destry_windows(self) -> None:
+
+        pass
+        

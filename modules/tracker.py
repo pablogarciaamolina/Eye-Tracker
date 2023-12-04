@@ -99,5 +99,3 @@ class Tracker:
                     eye = cv2.drawKeypoints(eye, keypoints, eye, (0, 255, 0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
         return frame
-
-

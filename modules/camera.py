@@ -51,3 +51,8 @@ class CameraInput_Windows:
 
         # Release the camera and close the window
         self.camera.release()
+        cv2.destroyAllWindows()
+
+    def destroy_windows(self) -> None:
+
+        cv2.destroyAllWindows()

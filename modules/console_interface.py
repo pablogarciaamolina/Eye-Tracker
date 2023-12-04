@@ -35,6 +35,15 @@ class Console_Interface:
             text = text + '\n'
 
         return bool(input(text))
+    
+    def text_input(self, text: str, expected_answer: str, next_line: bool = False) -> bool:
+
+        if next_line: 
+            text = text + '\n'
+
+        answer = input(text)
+        
+        return True if answer == expected_answer else False
 
     def special_intro(self):
         '''
