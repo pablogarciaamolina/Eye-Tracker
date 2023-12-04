@@ -28,7 +28,7 @@ a Chessboard pattern to calibrate the parameters correctly. These images can be 
   The project allows for easy configuration of directories arrangement, camera specification, and even image and video processing parameters. This is all achieved through a `configuration.ini` file located in the `/config` directory.
 </p>
 
-## Configuration File Explanation
+### File Explanation
 
 [directories]
 
