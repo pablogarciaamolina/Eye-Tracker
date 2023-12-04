@@ -3,6 +3,7 @@ from configparser import ConfigParser
 
 POLYGON_DETECTION_MAIN = 'polygon_detection_parameters'
 POLYGON_VERTICES_MAIN = 'polygon_vertices'
+POLYGON_SHAPES_MAIN = 'polygon_shapes'
 GAUSSIAN_BLUR_DIMENSIONS = 'gaussian_blur_dimensions' 
 GAUSSIAN_SIGMA_X = 'gaussian_sigma_x'
 GAUSSIAN_SIGMA_Y = 'gaussian_sigma_y'
@@ -16,7 +17,7 @@ class Polygon_Detector:
     def __init__(self, config: ConfigParser) -> None:
         
         self.polygon_vertices = [int(value) for value in config[POLYGON_VERTICES_MAIN].values()]
-        self.polygon_shapes = [value for value in config[POLYGON_VERTICES_MAIN].values()]
+        self.polygon_shapes = [value for value in config[POLYGON_SHAPES_MAIN].values()]
 
         self.gaussian_dimensions = list(map(int, config[POLYGON_DETECTION_MAIN][GAUSSIAN_BLUR_DIMENSIONS].split(',')))
         self.sigma_x = float(config[POLYGON_DETECTION_MAIN][GAUSSIAN_SIGMA_X])
