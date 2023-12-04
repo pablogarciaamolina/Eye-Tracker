@@ -22,9 +22,10 @@ class CameraInput_RaspBerryPi:
         self.picam.configure("preview")
         self.picam.start()
      
-    def feed(self) -> ndarray:
+    def stop(self) -> None:
         '''
-        Feeds a new image
+        Closes camera
         '''
 
-        return self.picam.capture_array()
+        # Release the camera and close the window
+        self.camera.release()

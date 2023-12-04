@@ -3,7 +3,7 @@ import numpy as np
 from configparser import ConfigParser
 
 DIRECTORIES_MAIN = 'directories'
-RAW_DATA = 'data/raw_data'
+RAW_DATA = 'data_raw'
 TRACKER_MAIN = 'tracker'
 FACE_CASCADE_FILE = 'face_cascade_classifier_detector_file'
 EYE_CASCADE_FILE = 'eye_cascade_classifier_detector_file'
@@ -12,6 +12,10 @@ BLOB_FILTERED_MAX_AREA = 'simple_blob_detector_param_max_area'
 MULTISCALE_SCALEFACTOR = 'detector_multiscaledtetector_scalefactor'
 MULTISCALE_MIN_NEIGHTBOURS = 'detector_multiscaledtetector_min_neightbours'
 BLOB_PROCESS_THRESHOLD = 'blob_process_threshold'
+EROSION_ITERATIONS = 'erosion_iterations'
+DILATION_ITERATIONS = 'dilation_iterations'
+MEDIAN_BLUR_KSIZE = 'median_blur_size'
+TRACKING_STOP_KEY = 'tracker_stop_key'
 
 class Tracker:
     def __init__(self, config: ConfigParser):
@@ -30,6 +34,11 @@ class Tracker:
         self.multiscale_factor = float(config[TRACKER_MAIN][MULTISCALE_SCALEFACTOR])
         self.multiscale_min_neightbours = int(config[TRACKER_MAIN][MULTISCALE_MIN_NEIGHTBOURS])
         self.blob_process_threshold = int(config[TRACKER_MAIN][BLOB_PROCESS_THRESHOLD])
+        self.erosion_iteration = int(config[TRACKER_MAIN][EROSION_ITERATIONS])
+        self.dilation_iteration = int(config[TRACKER_MAIN][DILATION_ITERATIONS])
+        self.medianblur_ksize = int(config[TRACKER_MAIN][MEDIAN_BLUR_KSIZE])
+
+        self.stop_tracking_key = config[TRACKER_MAIN][TRACKING_STOP_KEY]
 
     def create_gray(self,img):
         return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -71,36 +80,24 @@ class Tracker:
         detector = self.detector
         gray_frame = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, img = cv2.threshold(gray_frame, threshold, 255, cv2.THRESH_BINARY)
-        img = cv2.erode(img, None, iterations=)
-        img = cv2.dilate(img, None, iterations=)
-        img = cv2.medianBlur(img, )
+        img = cv2.erode(img, None, iterations=self.erosion_iteration)
+        img = cv2.dilate(img, None, iterations=self.dilation_iteration)
+        img = cv2.medianBlur(img, self.medianblur_ksize)
         keypoints = detector.detect(img)
+
         return keypoints
 
 
-    def run(self):
+    def return_detected(self, frame: cv2.Mat):
 
-        cap = cv2.VideoCapture(0)
+        face_frame = self.detect_faces(frame)
+        if face_frame is not None:
+            eyes = self.detect_eyes(face_frame)
+            for eye in eyes:
+                if eye is not None:
+                    keypoints = self.blob_process(eye, self.blob_process_threshold)
+                    eye = cv2.drawKeypoints(eye, keypoints, eye, (0, 255, 0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-        while True:
-            _, frame = cap.read()
-            face_frame = self.detect_faces(frame)
-            if face_frame is not None:
-                eyes = self.detect_eyes(face_frame)
-                for eye in eyes:
-                    if eye is not None:
-                        keypoints = self.blob_process(eye, self.blob_process_threshold)
-                        eye = cv2.drawKeypoints(eye, keypoints, eye, (0, 255, 0), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-
-            cv2.imshow('image', frame)
-
-            if cv2.waitKey(1) & 0xFF == ord():
-                break
-        
-        cap.release()
-        cv2.destroyAllWindows()
+        return frame
 
 
-if __name__ == "__main__":
-    t = Tracker()
-    t.run()

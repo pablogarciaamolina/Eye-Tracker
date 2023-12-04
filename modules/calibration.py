@@ -4,7 +4,8 @@ import numpy as np
 import copy
 from configparser import ConfigParser
 
-CAMERA_INI = "camera"
+CAMERA_INI = 'camera'
+CALIBRATION_INI = "calibration"
 DIRECTORIES_INI = 'directories'
 CAMERA_CALIBRATION_DIRECTORY_INI = 'data_calibration'
 CAMERA_CALIBRATION_IMAGES_DIRECTORY_INI = 'data_calibration_images'
@@ -21,8 +22,8 @@ class Calibration():
         self.resolution: list[int] = list(map(int, config[CAMERA_INI][CAMERA_RESOLUTION_INI].split(',')))
         self.calibration_data_directory: str = config[DIRECTORIES_INI][CAMERA_CALIBRATION_DIRECTORY_INI]
         self.calibration_images_directory: str = config[DIRECTORIES_INI][CAMERA_CALIBRATION_IMAGES_DIRECTORY_INI]
-        self.min_number_calibration_images: int = int(config[CAMERA_INI][N_CALIBRATION_IMAGES])
-        self.calibration_pattern_layout: tuple[int] = tuple(map(int, config[CAMERA_INI][CALIBRATION_PATTERN_LAYOUT].split(',')))
+        self.min_number_calibration_images: int = int(config[CALIBRATION_INI][N_CALIBRATION_IMAGES])
+        self.calibration_pattern_layout: tuple[int] = tuple(map(int, config[CALIBRATION_INI][CALIBRATION_PATTERN_LAYOUT].split(',')))
 
     def load_calibration_images(self):
         filenames = os.listdir(self.calibration_images_directory)
@@ -78,6 +79,8 @@ class Calibration():
             np.save(self.calibration_data_directory + '/' + "intrinsics_" + str(self.resolution[0]) + '_' + str(self.resolution[1]), intrinsics)
             np.save(self.calibration_data_directory + '/' + "extrinsics_" + str(self.resolution[0]) + '_' + str(self.resolution[1]), extrinsics)
             np.save(self.calibration_data_directory + '/' + "rms_" + str(self.resolution[0]) + '_' + str(self.resolution[1]), rms)
+
+            return 1
 
  
 if __name__ == "__main__":

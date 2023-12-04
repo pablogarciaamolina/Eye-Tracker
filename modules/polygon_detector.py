@@ -1,20 +1,30 @@
 import cv2
 from configparser import ConfigParser
 
+POLYGON_DETECTION_MAIN = 'polygon_detection_parameters'
+POLYGON_VERTICES_MAIN = 'polygon_vertices'
+GAUSSIAN_BLUR_DIMENSIONS = 'gaussian_blur_dimensions' 
+GAUSSIAN_SIGMA_X = 'gaussian_sigma_x'
+GAUSSIAN_SIGMA_Y = 'gaussian_sigma_y'
+CANNY_THRESHOLD_X = 'canny_threshold_x'
+CANNY_THRESHOLD_Y = 'canny_threshold_y'
+MIN_CONTOUR_AREA = 'min_contour_area'
+MIN_DISTANCE_INBETWEEN_SHAPES = 'min_distance_inbetween_shapes'
+
 class Polygon_Detector:
 
     def __init__(self, config: ConfigParser) -> None:
         
-        self.polygon_vertices = [int(value) for value in config['polygon_vertices'].values()]
-        self.polygon_shapes = [value for value in config['polygon_shapes'].values()]
+        self.polygon_vertices = [int(value) for value in config[POLYGON_VERTICES_MAIN].values()]
+        self.polygon_shapes = [value for value in config[POLYGON_VERTICES_MAIN].values()]
 
-        self.gaussian_dimensions = list(map(int, config['polygon_detection_parameters']['gaussian_blur_dimensions'].split(',')))
-        self.sigma_x = float(config['polygon_detection_parameters']['gaussian_sigma_x'])
-        self.sigma_y = float(config['polygon_detection_parameters']['gaussian_sigma_y'])
-        self.canny_threshold_x = float(config['polygon_detection_parameters']['canny_threshold_x'])
-        self.canny_threshold_y = float(config['polygon_detection_parameters']['canny_threshold_y'])
-        self.min_contour_area = float(config['polygon_detection_parameters']['min_contour_area'])
-        self.min_distance_inbetween_shapes = float(config['polygon_detection_parameters']['min_distance_inbetween_shapes'])
+        self.gaussian_dimensions = list(map(int, config[POLYGON_DETECTION_MAIN][GAUSSIAN_BLUR_DIMENSIONS].split(',')))
+        self.sigma_x = float(config[POLYGON_DETECTION_MAIN][GAUSSIAN_SIGMA_X])
+        self.sigma_y = float(config[POLYGON_DETECTION_MAIN][GAUSSIAN_SIGMA_Y])
+        self.canny_threshold_x = float(config[POLYGON_DETECTION_MAIN][CANNY_THRESHOLD_X])
+        self.canny_threshold_y = float(config[POLYGON_DETECTION_MAIN][CANNY_THRESHOLD_Y])
+        self.min_contour_area = float(config[POLYGON_DETECTION_MAIN][MIN_CONTOUR_AREA])
+        self.min_distance_inbetween_shapes = float(config[POLYGON_DETECTION_MAIN][MIN_DISTANCE_INBETWEEN_SHAPES])
 
     def find_contours(self, image: cv2.Mat) -> list[cv2.Mat]:
 
