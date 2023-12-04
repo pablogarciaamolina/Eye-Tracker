@@ -25,7 +25,9 @@ it does the same for the eyes and search for the important points on the image t
 <p>Lastly if the secuence is procided sucessfully, access will be granted and the tracker application will start. The eye tracker ill run until the user exits the session.</p>
 
 <h2>Configuration</h2>
-<p></p>
+<p>
+  The project allows for easy configuration of directories arrangement, camera specification and even image and video processing parameters. This is all achieved through a configuration.ini file located on /config.
+</p>
 
 
 
