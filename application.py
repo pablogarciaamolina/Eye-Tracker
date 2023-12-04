@@ -132,13 +132,8 @@ def run_tracker(camera, tracker: Tracker, start_key: str, exit_key: str):
 
         camera.destroy_windows()
 
-def main():
+def main(configuration: configparser.ConfigParser, camera):
 
-    configuration = configparser.ConfigParser()
-    configuration.read(os.path.join(os.path.dirname(__file__), './config/config.ini'))
-
-    # IMAGE INPUT
-    camera = CameraInput_RaspBerryPi(configuration)
     # CALIBRATOR
     calibration = Calibration(configuration)
     min_calibration_images = int(configuration[CALIBRATION_INI][N_CALIBRATION_IMAGES])
@@ -164,4 +159,10 @@ def main():
 
 if __name__ == '__main__':
 
-    main()
+    configuration = configparser.ConfigParser()
+    configuration.read(os.path.join(os.path.dirname(__file__), './config/config.ini'))
+
+    # IMAGE INPUT
+    camera = CameraInput_RaspBerryPi(configuration)
+
+    main(configuration, camera)
