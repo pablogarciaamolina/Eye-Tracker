@@ -1,5 +1,6 @@
 import cv2
 from configparser import ConfigParser
+from modules.config_rel import *
 
 class CameraInput_Windows:
 
@@ -20,7 +21,7 @@ class CameraInput_Windows:
         ## Counter for images
         self.counter: int = 0
         ## Where to store captured images
-        self.captured_images_directory: str = config['directories']['data_images_captured']
+        self.captured_images_directory: str = config[DIRECTORIES_MAIN][CAMERA_IMAGES_CAPTURED_DIRECTORY_INI]
      
     def feed(self) -> cv2.Mat:
         '''

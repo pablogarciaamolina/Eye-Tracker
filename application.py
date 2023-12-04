@@ -7,6 +7,7 @@ from modules.camera_rasp_linux import CameraInput_RaspBerryPi
 from modules.polygon_detector import Polygon_Detector
 from modules.console_interface import Console_Interface
 from modules.tracker import Tracker
+from modules.config_rel import *
 
 interface = Console_Interface()
 
@@ -140,17 +141,17 @@ def main():
     camera = CameraInput_RaspBerryPi(configuration)
     # CALIBRATOR
     calibration = Calibration(configuration)
-    min_calibration_images = int(configuration['calibration']['min_number_calibration_images'])
-    take_picture_calibration_key = configuration['calibration']['take_picture_key']
+    min_calibration_images = int(configuration[CALIBRATION_INI][N_CALIBRATION_IMAGES])
+    take_picture_calibration_key = configuration[CALIBRATION_INI][CALIBRATION_TAKE_PICTURE_KEY]
     # DETECTOR
     polygon_detector = Polygon_Detector(configuration)
-    security_pattern = list(map(str, configuration['security']['polygon_password'].split(',')))
-    security_max_trys = int(configuration['security']['number_of_attempts'])
-    security_key: str = configuration['security']['security_picture_key']
+    security_pattern = list(map(str, configuration[SECURITY_MAIN][SECURITY_POLYGON_PASSWORD].split(',')))
+    security_max_trys = int(configuration[SECURITY_MAIN][SECURITY_NUMBER_ATTEMPTS])
+    security_key: str = configuration[SECURITY_MAIN][SECURITY_PICTURE_KEY]
     # EYE TRACKER
     tracker = Tracker(configuration)
-    stop_tracking_key = configuration['tracker']['tracker_stop_key']
-    start_tracking_key = configuration['tracker']['tracker_start_key']
+    stop_tracking_key = configuration[TRACKER_MAIN][TRACKING_STOP_KEY]
+    start_tracking_key = configuration[TRACKER_MAIN][TRACKING_START_KEY]
     
 
     interface.special_intro()

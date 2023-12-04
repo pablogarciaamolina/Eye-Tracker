@@ -1,10 +1,7 @@
 from picamera2 import Picamera2
 from configparser import ConfigParser
 from numpy import ndarray
-
-CAMERA_INI = "camera"
-CAMERA_RESOLUTION_INI = "resolution"
-FORMAT = 'main_format'
+from modules.config_rel import *
 
 class CameraInput_RaspBerryPi:
 

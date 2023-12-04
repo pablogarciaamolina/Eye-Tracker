@@ -1,21 +1,8 @@
 import cv2
 import numpy as np
 from configparser import ConfigParser
+from modules.config_rel import *
 
-DIRECTORIES_MAIN = 'directories'
-RAW_DATA = 'data_raw'
-TRACKER_MAIN = 'tracker'
-FACE_CASCADE_FILE = 'face_cascade_classifier_detector_file'
-EYE_CASCADE_FILE = 'eye_cascade_classifier_detector_file'
-BLOB_FILTERED_BY_AREA = 'simple_blob_detector_param_filter_by_area'
-BLOB_FILTERED_MAX_AREA = 'simple_blob_detector_param_max_area'
-MULTISCALE_SCALEFACTOR = 'detector_multiscaledtetector_scalefactor'
-MULTISCALE_MIN_NEIGHTBOURS = 'detector_multiscaledtetector_min_neightbours'
-BLOB_PROCESS_THRESHOLD = 'blob_process_threshold'
-EROSION_ITERATIONS = 'erosion_iterations'
-DILATION_ITERATIONS = 'dilation_iterations'
-MEDIAN_BLUR_KSIZE = 'median_blur_size'
-TRACKING_STOP_KEY = 'tracker_stop_key'
 
 class Tracker:
     def __init__(self, config: ConfigParser):

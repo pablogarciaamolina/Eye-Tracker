@@ -1,16 +1,6 @@
 import cv2
 from configparser import ConfigParser
-
-POLYGON_DETECTION_MAIN = 'polygon_detection_parameters'
-POLYGON_VERTICES_MAIN = 'polygon_vertices'
-POLYGON_SHAPES_MAIN = 'polygon_shapes'
-GAUSSIAN_BLUR_DIMENSIONS = 'gaussian_blur_dimensions' 
-GAUSSIAN_SIGMA_X = 'gaussian_sigma_x'
-GAUSSIAN_SIGMA_Y = 'gaussian_sigma_y'
-CANNY_THRESHOLD_X = 'canny_threshold_x'
-CANNY_THRESHOLD_Y = 'canny_threshold_y'
-MIN_CONTOUR_AREA = 'min_contour_area'
-MIN_DISTANCE_INBETWEEN_SHAPES = 'min_distance_inbetween_shapes'
+from modules.config_rel import *
 
 class Polygon_Detector:
 

@@ -3,16 +3,7 @@ import cv2
 import numpy as np
 import copy
 from configparser import ConfigParser
-
-CAMERA_INI = 'camera'
-CALIBRATION_INI = "calibration"
-DIRECTORIES_INI = 'directories'
-CAMERA_CALIBRATION_DIRECTORY_INI = 'data_calibration'
-CAMERA_CALIBRATION_IMAGES_DIRECTORY_INI = 'data_calibration_images'
-CAMERA_RESOLUTION_INI = "resolution"
-N_CALIBRATION_IMAGES = "min_number_calibration_images"
-CALIBRATION_PATTERN_LAYOUT = 'calibration_layout_pattern'
-
+from modules.config_rel import *
 
 class Calibration():
 
