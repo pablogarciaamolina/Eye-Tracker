@@ -22,21 +22,23 @@ def calibrate_camera(camera, calibrator: Calibration, min_calibration_images: in
 
         interface.finish_load(text='ERROR')
         interface.message(f'· Unable to calibrate, not at lest {min_calibration_images} pattern images provided')
-        try_again = interface.bool_input()
+        try_again = interface.text_input("Take pictures for calibration? (Y/N)", expected_answer='Y')
 
         if try_again:
 
             # START GATHERING IMAGES FOR CALIBRATION
             take = True
             counter = 0
+            interface.message(f'Press {take_picture_key} to take a picture', underlined=True)
             while take:
 
                 frame = camera.feed()
                 key = cv2.waitKey(1)
+                cv2.imshow('Taking pictures for calibration', frame)
 
                 if key & 0xFF == ord(take_picture_key):
-                    calibrator.calibration_images_directory
-                    cv2.imwrite(f'calibration_image{counter}', frame)
+                    interface.message(f'Image nº{counter+1} taken')
+                    cv2.imwrite( os.path.join(calibrator.calibration_images_directory, f'calibration_image{counter}.jpg'), frame)
                     counter += 1
                     if counter >= min_calibration_images:
                         take = False
@@ -77,7 +79,7 @@ def security(camera, polygon_detector: Polygon_Detector, pattern: list[str], n_t
         if key & 0xFF == ord(picture_key):
 
             detected: list[str] = polygon_detector.detect_polygons(frame)
-            interface.message(f"Image taken, detected: {detected}")
+            interface.message(f"· Image taken, detected: {detected}")
             if len(detected) == 1:
 
                 if pattern[i] in detected:
@@ -138,7 +140,7 @@ def main():
     camera = CameraInput_RaspBerryPi(configuration)
     # CALIBRATOR
     calibration = Calibration(configuration)
-    min_calibration_images = configuration['calibration']['min_number_calibration_images']
+    min_calibration_images = int(configuration['calibration']['min_number_calibration_images'])
     take_picture_calibration_key = configuration['calibration']['take_picture_key']
     # DETECTOR
     polygon_detector = Polygon_Detector(configuration)
