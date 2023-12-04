@@ -13,10 +13,10 @@ a Chessboard pattern in order to calibrate the parameters correctly. This images
 <p>Real time eye tracker application. It works creating a blob detector that recognises firstly faces and separates them form the rest of the image. Then
 it does the same for the eyes and search for the important points on the image that resembles the ones of an eye and draws a circle over it.</p>
 <h2> <em> Requirements </em> </h2>
-<p>
+
 - python 3.7
 - opencv-python
 - picamera2
 - termcolor
-</p>
+
 <h2> <em> Guide </em> </h2>
