@@ -155,8 +155,8 @@ def main():
 
     interface.special_intro()
     calibrate_camera(camera, calibration, min_calibration_images, take_picture_calibration_key)
-    security(camera, polygon_detector, security_pattern, security_max_trys, security_key)
-    run_tracker(camera, tracker, start_tracking_key, stop_tracking_key)
+    passed = security(camera, polygon_detector, security_pattern, security_max_trys, security_key)
+    if passed == 1: run_tracker(camera, tracker, start_tracking_key, stop_tracking_key)
 
     camera.stop()
 

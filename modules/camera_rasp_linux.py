@@ -21,9 +21,9 @@ class CameraInput_RaspBerryPi:
         self.picam.preview_configuration.align()
         self.picam.configure("preview")
         self.picam.start()
-
+        
     def feed(self):
-
+            
         return self.picam.capture_array()
      
     def stop(self) -> None:
@@ -31,9 +31,10 @@ class CameraInput_RaspBerryPi:
         Closes camera
         '''
 
-        self.camera.release()
+        # Release the camera and close the window
+        self.picam.stop()
 
     def destroy_windows(self) -> None:
 
         pass
-        
+
