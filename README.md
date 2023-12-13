@@ -11,6 +11,57 @@ a Chessboard pattern to calibrate the parameters correctly. These images can be 
 <p>It is based on image recognition of polygons and provides or denies access to the real-time tracker by detecting a predefined sequence of shapes</p>
 <h3> Tracker System</h3>
 <p>Real-time eye tracker application. It works by creating a blob detector that recognizes faces and separates them from the rest of the image. Then it does the same for the eyes and searches for the important points on the image that resemble the ones of an eye and draws a circle over it.</p>
+# Project_Vision / Eye Tracker
+
+<h2> <em> Modules </em> </h2>
+The code consists of several modules with different functionalities that support the main application. These modules are independent and designed to perform specific tasks; thus, they can be used beyond the project scope. This section aims to highlight their main functionalities.
+
+### `config_rel.py`
+This file contains constants encapsulating the keys of various fields in the project's configuration file. Most implemented classes require a ConfigParser (resulting from reading this .ini configuration file) for initialization. Henceforth, it is assumed that most modules reference `config_rel.py`.
+
+### `camera.py` & `camera_rasp_linux.py`
+Both modules include classes for image and video capture. However, each includes a class for Windows and Linux systems, respectively. Nevertheless, they share the same methods, so the expressed functionalities apply to both models.
+
+Upon instantiation of the input, the device's camera is initiated, allowing the capture of images and video. The `feed()` method returns an image taken at the moment, enabling real-time video capture with a small loop.
+
+`save_image()` stores an image in the directory for captured images as described in the configuration.
+
+Finally, the `stop()` and `destroy_windows()` methods safely stop image and video capture resources.
+
+### `calibration.py`
+This module defines the `Calibration` class, which provides methods for calibrating a pin-hole model with the help of the OpenCV library. Currently, only one type of calibration pattern, the chessboard pattern, is implemented.
+
+`load_calibration_images()` loads calibration images from the file defined in the configuration.
+
+`get_chessboard_points()` returns an array of relative positions of points on a chessboard pattern.
+
+`calibrate()` checks if there are enough calibration images (returns -1 if not) and proceeds with calibration, saving the model's results in the designated folder in the configuration.
+
+### `polygon_detector.py`
+This module implements the `Polygon_Detector` class, allowing the detection of polygons described in the configuration file using image processing techniques with OpenCV.
+
+`find_contours()` finds contours in an image. It first applies a Gaussian filter followed by a Canny detector, both in grayscale. To characterize contours, the `findContours()` function from OpenCV is used. Finally, these contours are filtered with a minimum area threshold.
+
+The `detect_polygons()` method detects polygons in an image and returns them in a list of strings. It applies `find_contours()` and then uses `approxPolyDP()` from cv2 with each contour to determine the number of vertices. It then maps these polygons with registered ones and assigns an estimation. Additional heuristics, such as distance between contours, are used to avoid detecting the same polygon multiple times.
+
+`draw_polygons()` performs the same as the previous method but returns an image with the detected polygons, i.e., with colored contours and their names written.
+
+### `tracker.py`
+This module implements all the necessary functions to run the Tracker, in this case, the eye tracker. It enables the detection of a person's face and eyes and paints them in real-time.
+
+`create_gray()` creates a grayscale copy of the image, which is crucial for image processing.
+
+`detect_faces()` & `detect_eyes()` both functions are usually performed consecutively and work similarly. They create a grayscale copy of the frame, and then, using a pre-trained detector, they detect the pixels of the image belonging to the object to recognize, whether it be the face or the eyes. In the first case, the function returns a submatrix of the image with pixels belonging to the face, and in the second case, it returns a list with submatrices of pixels of the detected eyes based on whether they are on the right or left side of the face.
+
+`blob_process()` this function is used immediately after the previous one and obtains the blobs of an image or a submatrix. It is used to detect the blobs of the eyes for painting and tracking.
+
+`run_detected()` is, so to speak, the main function of the module that performs the previous functions one by one and is responsible for painting the blobs of the eyes.
+
+### `console_interface.py`
+Here, the `Console_Interface` class is implemented to isolate console writing methods from the rest of the program. The termcolor library is used to work with different operating systems without the risk of errors (previously, ANSI codes were used, but they did not work well in Linux).
+
+Many methods are implemented to write different types of messages in color, underlined, or in bold, as well as to display the special project title on the screen.
+
 
 <h2> <em> Guide </em> </h2>
 
