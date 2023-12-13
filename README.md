@@ -16,10 +16,10 @@ a Chessboard pattern to calibrate the parameters correctly. These images can be 
 <h2> <em> Modules </em> </h2>
 The code consists of several modules with different functionalities that support the main application. These modules are independent and designed to perform specific tasks; thus, they can be used beyond the project scope. This section aims to highlight their main functionalities.
 
-### `config_rel.py`
+#### `config_rel.py`
 This file contains constants encapsulating the keys of various fields in the project's configuration file. Most implemented classes require a ConfigParser (resulting from reading this .ini configuration file) for initialization. Henceforth, it is assumed that most modules reference `config_rel.py`.
 
-### `camera.py` & `camera_rasp_linux.py`
+#### `camera.py` & `camera_rasp_linux.py`
 Both modules include classes for image and video capture. However, each includes a class for Windows and Linux systems, respectively. Nevertheless, they share the same methods, so the expressed functionalities apply to both models.
 
 Upon instantiation of the input, the device's camera is initiated, allowing the capture of images and video. The `feed()` method returns an image taken at the moment, enabling real-time video capture with a small loop.
@@ -28,7 +28,7 @@ Upon instantiation of the input, the device's camera is initiated, allowing the 
 
 Finally, the `stop()` and `destroy_windows()` methods safely stop image and video capture resources.
 
-### `calibration.py`
+#### `calibration.py`
 This module defines the `Calibration` class, which provides methods for calibrating a pin-hole model with the help of the OpenCV library. Currently, only one type of calibration pattern, the chessboard pattern, is implemented.
 
 `load_calibration_images()` loads calibration images from the file defined in the configuration.
@@ -37,7 +37,7 @@ This module defines the `Calibration` class, which provides methods for calibrat
 
 `calibrate()` checks if there are enough calibration images (returns -1 if not) and proceeds with calibration, saving the model's results in the designated folder in the configuration.
 
-### `polygon_detector.py`
+#### `polygon_detector.py`
 This module implements the `Polygon_Detector` class, allowing the detection of polygons described in the configuration file using image processing techniques with OpenCV.
 
 `find_contours()` finds contours in an image. It first applies a Gaussian filter followed by a Canny detector, both in grayscale. To characterize contours, the `findContours()` function from OpenCV is used. Finally, these contours are filtered with a minimum area threshold.
@@ -46,8 +46,8 @@ The `detect_polygons()` method detects polygons in an image and returns them in 
 
 `draw_polygons()` performs the same as the previous method but returns an image with the detected polygons, i.e., with colored contours and their names written.
 
-### `tracker.py`
-This module implements all the necessary functions to run the Tracker, in this case, the eye tracker. It enables the detection of a person's face and eyes and paints them in real-time.
+#### `tracker.py`
+This module implements all the necessary functions to run the `Tracker`, in this case, the eye tracker. It enables the detection of a person's face and eyes and paints them in real-time.
 
 `create_gray()` creates a grayscale copy of the image, which is crucial for image processing.
 
@@ -57,7 +57,7 @@ This module implements all the necessary functions to run the Tracker, in this c
 
 `run_detected()` is, so to speak, the main function of the module that performs the previous functions one by one and is responsible for painting the blobs of the eyes.
 
-### `console_interface.py`
+#### `console_interface.py`
 Here, the `Console_Interface` class is implemented to isolate console writing methods from the rest of the program. The termcolor library is used to work with different operating systems without the risk of errors (previously, ANSI codes were used, but they did not work well in Linux).
 
 Many methods are implemented to write different types of messages in color, underlined, or in bold, as well as to display the special project title on the screen.
