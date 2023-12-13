@@ -3,7 +3,7 @@
 Pablo García Molina y Andrés Martinez
 
 <h2> <em> Intro </em> </h2>
-<p>Image and video processing application. It runs 3 modules that consist of a calibration system, a security, and a tracking system</p>
+<p>Image and video processing application. It runs 3 modules that consist of a calibration system, a security system, and a tracking system</p>
 <h3>Calibration System</h3>
 <p>Fits a pinhole model and obtains the intrinsic, extrinsics and other parameters of the camera. It requires a minimum of 10 images of 
 a Chessboard pattern to calibrate the parameters correctly. These images can be provided or taken by the user in real time.</p>
